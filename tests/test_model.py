@@ -26,10 +26,11 @@ def test_evaluate_flags_anomaly_and_negative_trend_with_thrust_data() -> None:
 
 def test_fuelcast_preview_evaluation_produces_proxy_efficiency_and_trend() -> None:
     rows = load_fuelcast_preview("data/fuelcast_cps_poseidon_preview.csv")
+    calibration_samples = 3
 
-    reports = evaluate_fuelcast_rows(rows, calibration_samples=3)
+    reports = evaluate_fuelcast_rows(rows, calibration_samples=calibration_samples)
 
-    assert len(reports) == len(rows)
+    assert len(reports) == len(rows) - calibration_samples
     assert reports[0].expected_shaft_power_w is not None
     assert reports[-1].actual_efficiency > 0
     assert sum(report.anomaly_detected for report in reports) >= 2
