@@ -85,3 +85,22 @@ def test_environmental_features_increase_expected_power_under_headwind() -> None
     assert report.current_aiding_mps < 0
     assert report.beaufort_scale >= 6
     assert report.wave_proxy_index > 0
+
+
+def test_combo_a_joined_sample_ingests_environment_columns_end_to_end() -> None:
+    rows = load_fuelcast_preview("data/fuelcast_combo_a_joined_sample.csv")
+
+    assert len(rows) == 4
+    assert rows[-1].environment_wind_speed_mps == 15.0
+    assert rows[-1].environment_current_to_deg == 270.0
+    assert rows[-1].environment_wave_height_m == 2.8
+
+    reports = evaluate_fuelcast_rows(rows, calibration_samples=3)
+
+    assert len(reports) == 1
+    report = reports[0]
+    assert report.expected_shaft_power_w is not None
+    assert report.relative_head_wind_mps > 10.0
+    assert report.current_aiding_mps < 0.0
+    assert report.beaufort_scale >= 7
+    assert report.wave_proxy_index > 3.0
