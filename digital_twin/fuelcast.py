@@ -92,4 +92,5 @@ def build_power_curve_twin(rows: Iterable[FuelCastRow], calibration_samples: int
 def evaluate_fuelcast_rows(rows: Iterable[FuelCastRow], calibration_samples: int = 3) -> list[TwinReport]:
     rows = list(rows)
     twin = build_power_curve_twin(rows, calibration_samples=calibration_samples)
-    return twin.evaluate([row.to_operating_point() for row in rows])
+    evaluation_rows = rows[calibration_samples:]
+    return twin.evaluate([row.to_operating_point() for row in evaluation_rows])
