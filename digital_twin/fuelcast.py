@@ -26,6 +26,11 @@ class FuelCastRow:
     ship_heading_deg: float
     ship_speed_over_ground_mps: float
     ship_speed_through_water_mps: float
+    environment_wind_speed_mps: float | None = None
+    environment_wind_from_deg: float | None = None
+    environment_current_speed_mps: float | None = None
+    environment_current_to_deg: float | None = None
+    environment_wave_height_m: float | None = None
 
     def to_operating_point(self) -> OperatingPoint:
         mean_rpm = (self.propeller_port_rotation_speed_rpm + self.propeller_starboard_rotation_speed_rpm) / 2.0
@@ -41,6 +46,12 @@ class FuelCastRow:
             shaft_power_w=self.propeller_total_shaft_power_w,
             speed_through_water_mps=self.ship_speed_through_water_mps,
             fuel_consumption_kg_s=self.consumer_total_momentary_fuel_kg_s,
+            vessel_heading_deg=self.ship_heading_deg,
+            wind_speed_mps=self.environment_wind_speed_mps,
+            wind_from_deg=self.environment_wind_from_deg,
+            current_speed_mps=self.environment_current_speed_mps,
+            current_to_deg=self.environment_current_to_deg,
+            wave_height_m=self.environment_wave_height_m,
         )
 
 
@@ -67,6 +78,11 @@ def load_fuelcast_preview(path: str | Path) -> list[FuelCastRow]:
                     ship_heading_deg=float(raw["ship_heading_deg"]),
                     ship_speed_over_ground_mps=float(raw["ship_speed_over_ground_mps"]),
                     ship_speed_through_water_mps=float(raw["ship_speed_through_water_mps"]),
+                    environment_wind_speed_mps=_optional_float(raw.get("environment_wind_speed_mps")),
+                    environment_wind_from_deg=_optional_float(raw.get("environment_wind_from_deg")),
+                    environment_current_speed_mps=_optional_float(raw.get("environment_current_speed_mps")),
+                    environment_current_to_deg=_optional_float(raw.get("environment_current_to_deg")),
+                    environment_wave_height_m=_optional_float(raw.get("environment_wave_height_m")),
                 )
             )
         return rows
@@ -94,3 +110,9 @@ def evaluate_fuelcast_rows(rows: Iterable[FuelCastRow], calibration_samples: int
     twin = build_power_curve_twin(rows, calibration_samples=calibration_samples)
     evaluation_rows = rows[calibration_samples:]
     return twin.evaluate([row.to_operating_point() for row in evaluation_rows])
+
+
+def _optional_float(value: str | None) -> float | None:
+    if value is None or value == "":
+        return None
+    return float(value)

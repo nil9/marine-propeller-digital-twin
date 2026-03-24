@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
 from statistics import mean
 from typing import Iterable, Sequence
@@ -15,6 +16,12 @@ class OperatingPoint:
     shaft_power_w: float | None = None
     speed_through_water_mps: float | None = None
     fuel_consumption_kg_s: float | None = None
+    vessel_heading_deg: float | None = None
+    wind_speed_mps: float | None = None
+    wind_from_deg: float | None = None
+    current_speed_mps: float | None = None
+    current_to_deg: float | None = None
+    wave_height_m: float | None = None
 
     @property
     def vessel_speed_mps(self) -> float:
@@ -34,6 +41,10 @@ class TwinReport:
     degradation_trend_pct_per_sample: float
     expected_shaft_power_w: float | None = None
     actual_shaft_power_w: float | None = None
+    relative_head_wind_mps: float = 0.0
+    current_aiding_mps: float = 0.0
+    beaufort_scale: int = 0
+    wave_proxy_index: float = 0.0
 
 
 class PropellerDigitalTwin:
@@ -108,14 +119,25 @@ class PropellerDigitalTwin:
         return max(0.2, open_water_efficiency - loading_penalty * slip)
 
     def expected_shaft_power(self, point: OperatingPoint) -> float | None:
+        relative_head_wind, current_aiding, beaufort_scale, wave_proxy = self.environmental_features(point)
+        speed_for_power = max(
+            0.1,
+            point.vessel_speed_mps + max(relative_head_wind, 0.0) * 0.15 - current_aiding * 0.5,
+        )
+        env_factor = 1.0 + max(0, beaufort_scale - 4) * 0.015 + wave_proxy * 0.03
         if self.calibrated_power_coefficient is not None:
-            return self.calibrated_power_coefficient * (point.vessel_speed_mps ** self.speed_power_exponent)
+            return self.calibrated_power_coefficient * (speed_for_power ** self.speed_power_exponent) * env_factor
         if self.design_shaft_power_w is None:
             return None
         design_speed_mps = self.design_speed_knots * 0.514444
-        speed_ratio = point.vessel_speed_mps / max(design_speed_mps, 0.1)
+        speed_ratio = speed_for_power / max(design_speed_mps, 0.1)
         rpm_ratio = max(point.shaft_rpm / max(self.design_rpm, 1.0), 0.1)
-        return self.design_shaft_power_w * (speed_ratio ** self.speed_power_exponent) * (0.35 + 0.65 * rpm_ratio)
+        return (
+            self.design_shaft_power_w
+            * (speed_ratio ** self.speed_power_exponent)
+            * (0.35 + 0.65 * rpm_ratio)
+            * env_factor
+        )
 
     def actual_efficiency(self, point: OperatingPoint) -> tuple[float, float | None]:
         if point.thrust_kN is not None:
@@ -145,6 +167,7 @@ class PropellerDigitalTwin:
             expected_eff = self.expected_efficiency(point) if point.thrust_kN is not None else 1.0
             actual_eff, actual_power = self.actual_efficiency(point)
             expected_power = self.expected_shaft_power(point)
+            relative_head_wind, current_aiding, beaufort_scale, wave_proxy = self.environmental_features(point)
             deviation_pct = (actual_eff - expected_eff) / expected_eff * 100.0 if expected_eff else 0.0
             deviations.append(deviation_pct)
             trend = self._degradation_trend(deviations)
@@ -160,6 +183,10 @@ class PropellerDigitalTwin:
                     degradation_trend_pct_per_sample=trend,
                     expected_shaft_power_w=expected_power,
                     actual_shaft_power_w=actual_power,
+                    relative_head_wind_mps=relative_head_wind,
+                    current_aiding_mps=current_aiding,
+                    beaufort_scale=beaufort_scale,
+                    wave_proxy_index=wave_proxy,
                 )
             )
 
@@ -189,6 +216,31 @@ class PropellerDigitalTwin:
         if not coefficients:
             raise ValueError("Need shaft power and vessel speed to fit power coefficient")
         return mean(coefficients)
+
+    @staticmethod
+    def environmental_features(point: OperatingPoint) -> tuple[float, float, int, float]:
+        relative_head_wind = 0.0
+        current_aiding = 0.0
+        if point.vessel_heading_deg is not None:
+            if point.wind_speed_mps is not None and point.wind_from_deg is not None:
+                wind_delta = math.radians((point.wind_from_deg - point.vessel_heading_deg) % 360.0)
+                relative_head_wind = point.wind_speed_mps * math.cos(wind_delta)
+            if point.current_speed_mps is not None and point.current_to_deg is not None:
+                current_delta = math.radians((point.current_to_deg - point.vessel_heading_deg) % 360.0)
+                current_aiding = point.current_speed_mps * math.cos(current_delta)
+
+        beaufort = PropellerDigitalTwin.wind_speed_to_beaufort(point.wind_speed_mps or 0.0)
+        wave_height = max(point.wave_height_m or 0.0, 0.0)
+        wave_proxy = wave_height * (1.0 + abs(relative_head_wind) / 12.0)
+        return relative_head_wind, current_aiding, beaufort, wave_proxy
+
+    @staticmethod
+    def wind_speed_to_beaufort(wind_speed_mps: float) -> int:
+        thresholds = [0.5, 1.6, 3.4, 5.5, 8.0, 10.8, 13.9, 17.2, 20.8, 24.5, 28.5, 32.7]
+        for index, threshold in enumerate(thresholds):
+            if wind_speed_mps < threshold:
+                return index
+        return 12
 
     def _advance_ratio(self, shaft_rpm: float, vessel_speed_mps: float) -> float:
         rev_per_sec = max(shaft_rpm / 60.0, 0.01)

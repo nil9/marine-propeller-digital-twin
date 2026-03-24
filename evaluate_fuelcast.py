@@ -16,7 +16,9 @@ def main() -> None:
         print(
             f"{report.operating_point.timestamp}: actual={report.actual_efficiency:.4f}, "
             f"deviation={report.efficiency_deviation_pct:+.2f}%, anomaly={'YES' if report.anomaly_detected else 'no'}, "
-            f"power_gap={power_gap:+.0f} W, trend={report.degradation_trend_pct_per_sample:+.2f}%/sample"
+            f"power_gap={power_gap:+.0f} W, trend={report.degradation_trend_pct_per_sample:+.2f}%/sample, "
+            f"headwind={report.relative_head_wind_mps:+.2f} m/s, current={report.current_aiding_mps:+.2f} m/s, "
+            f"beaufort={report.beaufort_scale}, wave_proxy={report.wave_proxy_index:.2f}"
         )
 
     print("\nFleet baseline")
