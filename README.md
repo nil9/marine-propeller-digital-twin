@@ -35,6 +35,25 @@ Why a preview slice instead of the full dataset?
 
 The FuelCast card describes the dataset as 5-minute vessel telemetry with operational and environmental measurements from three ships, including propeller shaft power, shaft torque, vessel speed, and total fuel consumption.
 
+## Combo A environmental conditioning (FuelCast + ERA5 + Copernicus currents)
+
+You can now enrich FuelCast rows with optional environment columns and the twin will condition expected shaft power on:
+
+- relative headwind component
+- current aiding/opposing component
+- Beaufort scale (from wind speed)
+- wave proxy index
+
+Optional CSV columns supported by `load_fuelcast_preview`:
+
+- `environment_wind_speed_mps`
+- `environment_wind_from_deg` (meteorological "from" direction)
+- `environment_current_speed_mps`
+- `environment_current_to_deg` (oceanographic "to" direction)
+- `environment_wave_height_m`
+
+If these columns are omitted, behavior falls back to the original FuelCast-only model.
+
 ## Project structure
 
 - `digital_twin/model.py` — core digital twin model and analytics engine
@@ -68,19 +87,19 @@ This lets you test the digital twin on real ship telemetry now, while keeping a 
 ## Run the synthetic demo
 
 ```bash
-python demo.py
+python3 demo.py
 ```
 
 ## Run the FuelCast evaluation
 
 ```bash
-python evaluate_fuelcast.py
+python3 evaluate_fuelcast.py
 ```
 
 ## Run the tests
 
 ```bash
-pytest
+python3 -m pytest
 ```
 
 ## Next extensions
