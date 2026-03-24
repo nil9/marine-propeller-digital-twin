@@ -12,7 +12,7 @@ The output analytics remain focused on the propeller monitoring use case you des
 - anomaly detection
 - performance degradation trend
 
-## Why this matches your concept
+## Why this concept is important
 
 The twin mirrors the workflow you described:
 
@@ -21,7 +21,7 @@ The twin mirrors the workflow you described:
 3. **Analytics layer** that produces deviation, anomaly score, and degradation trend.
 4. **Monitoring-ready output** so it can later be paired with CFD-informed calibration, onboard telemetry, or streaming infrastructure.
 
-That makes the current prototype a more realistic stepping stone toward a Nakashima-style stack where CFD + monitoring systems feed a real-time analytics loop.
+That makes the current prototype a more realistic stepping stone toward an integrated stack where CFD + monitoring systems feed a real-time analytics loop.
 
 ## FuelCast dataset usage
 
