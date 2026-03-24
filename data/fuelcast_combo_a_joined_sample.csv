@@ -1,0 +1,5 @@
+subset,index,consumer_total_momentary_fuel_kg_s,consumer_total_shaft_power_w,environment_seafloor_depth_m,propeller_port_rotation_speed_rpm,propeller_port_shaft_power_w,propeller_port_shaft_torque_nm,propeller_starboard_rotation_speed_rpm,propeller_starboard_shaft_power_w,propeller_starboard_shaft_torque_nm,propeller_total_shaft_power_w,ship_bearing_deg,ship_heading_deg,ship_speed_over_ground_mps,ship_speed_through_water_mps,environment_wind_speed_mps,environment_wind_from_deg,environment_current_speed_mps,environment_current_to_deg,environment_wave_height_m
+train,0,0.132,1878000,44.0,98.0,938000,885000,98.4,940000,884000,1878000,90.0,90.0,7.00,6.85,4.2,110.0,0.3,95.0,0.7
+train,1,0.134,1945000,44.0,99.0,971000,903000,99.3,974000,905000,1945000,90.0,90.0,7.20,7.05,5.1,105.0,0.4,92.0,0.8
+train,2,0.136,2012000,44.0,100.0,1005000,922000,100.2,1007000,923000,2012000,90.0,90.0,7.35,7.20,6.3,100.0,0.5,88.0,1.0
+train,3,0.139,2168000,44.0,100.5,1081000,945000,100.8,1087000,948000,2168000,90.0,90.0,7.50,7.35,15.0,90.0,1.3,270.0,2.8
