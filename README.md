@@ -84,6 +84,23 @@ FuelCast does not expose direct propeller thrust in the public preview rows. For
 
 This lets you test the digital twin on real ship telemetry now, while keeping a clear path to swap in CFD-derived thrust/efficiency maps later.
 
+
+## Download ERA5 mirror data to `data/era5` (when CDS/ERA5 API is down)
+
+Try the AWS Open Data mirror first:
+
+```bash
+python3 scripts/fetch_era5_from_aws.py --year 2024 --month 1 --filename data.nc
+```
+
+If your runtime proxy blocks direct download, use the bundled fallback sample so downstream processing can still run:
+
+```bash
+python3 scripts/fetch_era5_from_aws.py --year 2024 --month 1 --fallback-to-local-sample
+```
+
+The downloader writes to `data/era5/` by default.
+
 ## Run the synthetic demo
 
 ```bash
