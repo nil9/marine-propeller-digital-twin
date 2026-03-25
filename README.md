@@ -101,6 +101,22 @@ python3 scripts/fetch_era5_from_aws.py --year 2024 --month 1 --fallback-to-local
 
 The downloader writes to `data/era5/` by default.
 
+## Download Copernicus data to `data/Copernicus`
+
+Use the Copernicus downloader and provide a public Copernicus URL:
+
+```bash
+python3 scripts/fetch_copernicus_data.py --source-url "https://<copernicus-public-file-url>" --filename copernicus_data.nc
+```
+
+If a corporate proxy blocks download, run with fallback enabled to generate a local sample CSV under `data/Copernicus/`:
+
+```bash
+python3 scripts/fetch_copernicus_data.py --source-url "https://<copernicus-public-file-url>" --fallback-to-sample
+```
+
+The script writes either the downloaded file or `copernicus_sample_subset.csv` fallback into `data/Copernicus/`.
+
 ## Run the synthetic demo
 
 ```bash
