@@ -1,0 +1,5 @@
+time,latitude,longitude,sea_surface_temperature_c,significant_wave_height_m,wind_speed_10m_ms
+2024-01-01T00:00:00Z,36.0,-5.6,16.4,1.2,7.8
+2024-01-01T06:00:00Z,36.0,-5.6,16.1,1.5,9.2
+2024-01-01T12:00:00Z,36.0,-5.6,16.0,1.1,6.4
+2024-01-01T18:00:00Z,36.0,-5.6,15.8,0.9,5.7
