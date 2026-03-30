@@ -162,6 +162,38 @@ The recommended dashboard panel structure is documented in:
 
 - `grafana/fuelcast_dashboard_layout.md`
 
+## If your Grafana board shows a 1969/1970 time range or empty environmental chart
+
+With the bundled FuelCast preview sample, this is expected unless you remap fields:
+
+- The exported `timestamp` values are sample IDs like `cps_poseidon:3`, not wall-clock datetimes.
+- Grafana time-series panels interpret non-datetime values as Unix epoch defaults, which can display a range around **1969-12-31 to 1970-01-01**.
+- Environmental series may appear flat/empty because the default preview sample has no external weather/current inputs, so exported environment columns are zeros.
+
+### What to change in Grafana
+
+1) **Use category mode for sample-index plots**  
+For bar/stat panels comparing `cps_poseidon:3`, `cps_poseidon:4`, etc., use a categorical/string X-axis rather than a time axis.
+
+2) **If you want a true time axis, add/derive a datetime column**  
+Before importing to Grafana, create a real datetime field (for example from your vessel telemetry timestamp) and use that as the panel time field.
+
+3) **Populate environmental lines with enriched data**  
+Provide environment columns when preparing the FuelCast input:
+- `environment_wind_speed_mps`
+- `environment_wind_from_deg`
+- `environment_current_speed_mps`
+- `environment_current_to_deg`
+- `environment_wave_height_m`
+
+Then re-run:
+
+```bash
+python3 scripts/export_fuelcast_metrics.py
+```
+
+After re-export/import, the `relative_head_wind_mps`, `current_aiding_mps`, `beaufort_scale`, and `wave_proxy_index` series will show non-zero values when present in source data.
+
 ## Grafana Cloud with JSON API data source (no PostgreSQL)
 
 If you prefer Grafana Cloud's **JSON API** plugin instead of a SQL data source:
