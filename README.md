@@ -161,3 +161,39 @@ This creates:
 The recommended dashboard panel structure is documented in:
 
 - `grafana/fuelcast_dashboard_layout.md`
+
+## One-command PostgreSQL setup for Grafana
+
+If you're new to PostgreSQL, you can load the exported Grafana files into a database with one script.
+
+1) Generate the Grafana export files:
+
+```bash
+python3 scripts/export_fuelcast_metrics.py
+```
+
+2) Create a local database (if needed):
+
+```bash
+createdb marine_twin
+```
+
+3) Load schema + CSV + JSON into PostgreSQL:
+
+```bash
+scripts/setup_grafana_postgres.sh postgresql:///marine_twin
+```
+
+This creates and populates:
+
+- `fuelcast_metrics`
+- `fuelcast_baseline`
+
+Default inputs expected by the loader:
+
+- `data/grafana/fuelcast_metrics.csv`
+- `data/grafana/fuelcast_baseline.json`
+
+The table schema is in:
+
+- `sql_grafana_postgres_schema.sql`
