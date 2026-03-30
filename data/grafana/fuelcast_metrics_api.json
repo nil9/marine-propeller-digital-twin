@@ -1,0 +1,76 @@
+{
+  "metrics": [
+    {
+      "timestamp": "cps_poseidon:3",
+      "actual_efficiency": 0.998944,
+      "efficiency_deviation_pct": -0.105648,
+      "anomaly_detected": false,
+      "anomaly_score": 0.105648,
+      "anomaly_threshold_pct": 0.75,
+      "degradation_trend_pct_per_sample": 0.0,
+      "expected_shaft_power_w": 5238399.213171,
+      "actual_shaft_power_w": 5243939.35,
+      "power_gap_w": 5540.136829,
+      "relative_head_wind_mps": 0.0,
+      "current_aiding_mps": 0.0,
+      "beaufort_scale": 0,
+      "wave_proxy_index": 0.0
+    },
+    {
+      "timestamp": "cps_poseidon:4",
+      "actual_efficiency": 0.984426,
+      "efficiency_deviation_pct": -1.557437,
+      "anomaly_detected": true,
+      "anomaly_score": 1.557437,
+      "anomaly_threshold_pct": 0.75,
+      "degradation_trend_pct_per_sample": -1.451788,
+      "expected_shaft_power_w": 5146229.113398,
+      "actual_shaft_power_w": 5227646.4,
+      "power_gap_w": 81417.286602,
+      "relative_head_wind_mps": 0.0,
+      "current_aiding_mps": 0.0,
+      "beaufort_scale": 0,
+      "wave_proxy_index": 0.0
+    },
+    {
+      "timestamp": "cps_poseidon:5",
+      "actual_efficiency": 0.974937,
+      "efficiency_deviation_pct": -2.506269,
+      "anomaly_detected": true,
+      "anomaly_score": 2.506269,
+      "anomaly_threshold_pct": 0.75,
+      "degradation_trend_pct_per_sample": -1.20031,
+      "expected_shaft_power_w": 5123356.770548,
+      "actual_shaft_power_w": 5255062.8,
+      "power_gap_w": 131706.029452,
+      "relative_head_wind_mps": 0.0,
+      "current_aiding_mps": 0.0,
+      "beaufort_scale": 0,
+      "wave_proxy_index": 0.0
+    },
+    {
+      "timestamp": "cps_poseidon:6",
+      "actual_efficiency": 0.997836,
+      "efficiency_deviation_pct": -0.216395,
+      "anomaly_detected": false,
+      "anomaly_score": 0.216395,
+      "anomaly_threshold_pct": 0.75,
+      "degradation_trend_pct_per_sample": -0.036916,
+      "expected_shaft_power_w": 5215254.377273,
+      "actual_shaft_power_w": 5226564.4,
+      "power_gap_w": 11310.022727,
+      "relative_head_wind_mps": 0.0,
+      "current_aiding_mps": 0.0,
+      "beaufort_scale": 0,
+      "wave_proxy_index": 0.0
+    }
+  ],
+  "baseline": {
+    "mean_actual_efficiency": 0.9890356262940133,
+    "mean_efficiency_gap_pct": -1.0964373705986659,
+    "anomaly_count": 2,
+    "anomaly_threshold_pct": 0.75,
+    "rows_evaluated": 4,
+    "calibration_samples": 3
+  }
+}
