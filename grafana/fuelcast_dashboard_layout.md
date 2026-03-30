@@ -58,3 +58,7 @@ python3 scripts/export_fuelcast_metrics.py
 ```
 
 If your Grafana datasource is SQL, import the CSV/JSON into a table first and map field names directly.
+If your datasource is JSON API, convert the CSV with `scripts/export_fuelcast_json_api.py` and map:
+
+- `metrics[*]` for time-series panels
+- `baseline.*` for KPI stat panels
