@@ -144,3 +144,20 @@ To evolve this into a more production-grade propeller twin, the next logical ste
 - incorporate weather and current terms into the expected shaft-power curve
 - separate propulsion degradation from hotel-load and engine-side effects
 - expose the analytics through an API or dashboard
+
+## Export FuelCast metrics for Grafana (layout)
+
+Generate dashboard-friendly outputs (post-calibration rows only):
+
+```bash
+python3 scripts/export_fuelcast_metrics.py
+```
+
+This creates:
+
+- `data/grafana/fuelcast_metrics.csv` (time-series metrics)
+- `data/grafana/fuelcast_baseline.json` (top-row KPI stats)
+
+The recommended dashboard panel structure is documented in:
+
+- `grafana/fuelcast_dashboard_layout.md`
