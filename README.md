@@ -162,6 +162,42 @@ The recommended dashboard panel structure is documented in:
 
 - `grafana/fuelcast_dashboard_layout.md`
 
+## Grafana Cloud with JSON API data source (no PostgreSQL)
+
+If you prefer Grafana Cloud's **JSON API** plugin instead of a SQL data source:
+
+1) Generate the standard exports:
+
+```bash
+python3 scripts/export_fuelcast_metrics.py
+```
+
+2) Convert CSV + baseline JSON into a single API payload:
+
+```bash
+python3 scripts/export_fuelcast_json_api.py
+```
+
+This creates:
+
+- `data/grafana/fuelcast_metrics_api.json`
+
+Payload shape:
+
+- `metrics`: array of time-series records (converted from CSV)
+- `baseline`: KPI object from `fuelcast_baseline.json`
+
+3) Host the JSON file on a public HTTPS endpoint (examples: static web server, object storage, GitHub Pages/Gist raw URL).
+
+4) In Grafana Cloud:
+
+- Add data source: **JSON API**
+- Set URL to your hosted endpoint
+- Use path `/` if the endpoint points directly at the JSON file
+- Map panel fields from:
+  - `metrics[*].timestamp`, `metrics[*].efficiency_deviation_pct`, etc.
+  - `baseline.mean_actual_efficiency`, `baseline.anomaly_count`, etc.
+
 ## One-command PostgreSQL setup for Grafana
 
 If you're new to PostgreSQL, you can load the exported Grafana files into a database with one script.
