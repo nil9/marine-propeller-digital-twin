@@ -1,7 +1,7 @@
 {
-  "mean_actual_efficiency": 1.2,
-  "mean_efficiency_gap_pct": 19.999999999999996,
-  "anomaly_count": 4,
+  "mean_actual_efficiency": 0.9917513044581738,
+  "mean_efficiency_gap_pct": -0.8248695541826222,
+  "anomaly_count": 3,
   "anomaly_threshold_pct": 0.75,
   "rows_evaluated": 4,
   "calibration_samples": 3
