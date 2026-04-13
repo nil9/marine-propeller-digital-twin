@@ -168,7 +168,12 @@ class PropellerDigitalTwin:
             actual_eff, actual_power = self.actual_efficiency(point)
             expected_power = self.expected_shaft_power(point)
             relative_head_wind, current_aiding, beaufort_scale, wave_proxy = self.environmental_features(point)
-            deviation_pct = (actual_eff - expected_eff) / expected_eff * 100.0 if expected_eff else 0.0
+            if point.thrust_kN is None and expected_power and actual_power and actual_power > 0:
+                # Power-curve mode: derive deviation directly from shaft power so that
+                # the capped efficiency proxy (max 1.2) cannot mask large deviations.
+                deviation_pct = (actual_power - expected_power) / expected_power * 100.0
+            else:
+                deviation_pct = (actual_eff - expected_eff) / expected_eff * 100.0 if expected_eff else 0.0
             deviations.append(deviation_pct)
             trend = self._degradation_trend(deviations)
             anomaly_score = abs(deviation_pct)
