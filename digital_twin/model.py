@@ -208,11 +208,17 @@ class PropellerDigitalTwin:
 
     @staticmethod
     def _fit_power_coefficient(history: Sequence[OperatingPoint], exponent: float) -> float:
-        coefficients = [
-            point.shaft_power_w / max(point.vessel_speed_mps, 0.1) ** exponent
-            for point in history
-            if point.shaft_power_w is not None and point.vessel_speed_mps > 0
-        ]
+        coefficients = []
+        for point in history:
+            if point.shaft_power_w is None or point.vessel_speed_mps <= 0:
+                continue
+            relative_head_wind, current_aiding, beaufort_scale, wave_proxy = PropellerDigitalTwin.environmental_features(point)
+            speed_for_power = max(
+                0.1,
+                point.vessel_speed_mps + max(relative_head_wind, 0.0) * 0.15 - current_aiding * 0.5,
+            )
+            env_factor = 1.0 + max(0, beaufort_scale - 4) * 0.015 + wave_proxy * 0.03
+            coefficients.append(point.shaft_power_w / (speed_for_power ** exponent * env_factor))
         if not coefficients:
             raise ValueError("Need shaft power and vessel speed to fit power coefficient")
         return mean(coefficients)
