@@ -4,5 +4,15 @@
   "anomaly_count": 3,
   "anomaly_threshold_pct": 0.75,
   "rows_evaluated": 4,
-  "calibration_samples": 3
+  "calibration_samples": 3,
+  "maintenance_policy": {
+    "sample_interval_hours": 1.0,
+    "forecast_days": 30,
+    "fuel_price_usd_per_ton": 650.0,
+    "sfoc_kg_per_kwh": 0.18,
+    "planned_drydock_cost_usd": 250000.0,
+    "planned_offhire_cost_usd": 120000.0,
+    "unplanned_failure_cost_usd": 900000.0,
+    "decision_margin_pct": 0.15
+  }
 }

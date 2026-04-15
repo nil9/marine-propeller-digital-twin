@@ -158,6 +158,29 @@ This creates:
 - `data/grafana/fuelcast_metrics.csv` (time-series metrics)
 - `data/grafana/fuelcast_baseline.json` (top-row KPI stats)
 
+Maintenance-oriented export columns now included in `fuelcast_metrics.csv`:
+
+- `health_risk_index`
+- `maintenance_state`
+- `recommended_action`
+- `projected_wait_cost_usd`
+- `projected_act_now_cost_usd`
+- `projected_cost_delta_usd`
+- `drydock_recommended`
+
+Optional economics flags on export:
+
+```bash
+python3 scripts/export_fuelcast_metrics.py \
+  --sample-interval-hours 1 \
+  --forecast-days 30 \
+  --fuel-price-usd-per-ton 650 \
+  --planned-drydock-cost-usd 250000 \
+  --planned-offhire-cost-usd 120000 \
+  --unplanned-failure-cost-usd 900000 \
+  --decision-margin-pct 0.15
+```
+
 The recommended dashboard panel structure is documented in:
 
 - `grafana/fuelcast_dashboard_layout.md`

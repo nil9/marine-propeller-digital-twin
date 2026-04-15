@@ -40,6 +40,21 @@ This dashboard uses exported files from `scripts/export_fuelcast_metrics.py`:
      - `current_aiding_mps`
      - `beaufort_scale`
      - `wave_proxy_index`
+8. **Maintenance state timeline** (state timeline or table)
+   - Source: `fuelcast_metrics.csv`
+   - X-axis: `timestamp`
+   - Fields:
+     - `maintenance_state` (`GREEN` / `AMBER` / `RED`)
+     - `recommended_action`
+9. **Maintenance economics** (bar chart or table)
+   - Source: `fuelcast_metrics.csv`
+   - X-axis: `timestamp`
+   - Fields:
+     - `health_risk_index`
+     - `projected_wait_cost_usd`
+     - `projected_act_now_cost_usd`
+     - `projected_cost_delta_usd`
+     - `drydock_recommended`
 
 ## Suggested panel titles
 
@@ -50,6 +65,8 @@ This dashboard uses exported files from `scripts/export_fuelcast_metrics.py`:
 - Anomaly markers
 - Power gap (actual - expected)
 - Environmental context
+- Maintenance state
+- Maintenance economics
 
 ## Export command
 
