@@ -18,9 +18,13 @@ FLOAT_FIELDS = {
     "relative_head_wind_mps",
     "current_aiding_mps",
     "wave_proxy_index",
+    "health_risk_index",
+    "projected_wait_cost_usd",
+    "projected_act_now_cost_usd",
+    "projected_cost_delta_usd",
 }
 INT_FIELDS = {"beaufort_scale"}
-BOOL_FIELDS = {"anomaly_detected"}
+BOOL_FIELDS = {"anomaly_detected", "drydock_recommended"}
 
 
 def _coerce_value(field: str, value: str):

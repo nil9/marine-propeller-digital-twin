@@ -14,7 +14,14 @@
       "relative_head_wind_mps": 4.476485,
       "current_aiding_mps": 0.598434,
       "beaufort_scale": 3,
-      "wave_proxy_index": 1.098432
+      "wave_proxy_index": 1.098432,
+      "health_risk_index": 75.558906,
+      "maintenance_state": "RED",
+      "recommended_action": "Schedule drydock optimization and immediate engineering inspection",
+      "projected_wait_cost_usd": 370741.11,
+      "projected_act_now_cost_usd": 370000.0,
+      "projected_cost_delta_usd": 741.11,
+      "drydock_recommended": false
     },
     {
       "timestamp": "cps_poseidon:4",
@@ -30,7 +37,14 @@
       "relative_head_wind_mps": 6.961397,
       "current_aiding_mps": 0.799503,
       "beaufort_scale": 4,
-      "wave_proxy_index": 2.370175
+      "wave_proxy_index": 2.370175,
+      "health_risk_index": 52.00007,
+      "maintenance_state": "AMBER",
+      "recommended_action": "Increase monitoring cadence and run propulsion inspection checklist",
+      "projected_wait_cost_usd": 40971116.37,
+      "projected_act_now_cost_usd": 370000.0,
+      "projected_cost_delta_usd": 40601116.37,
+      "drydock_recommended": false
     },
     {
       "timestamp": "cps_poseidon:5",
@@ -46,7 +60,14 @@
       "relative_head_wind_mps": 6.308565,
       "current_aiding_mps": 0.298324,
       "beaufort_scale": 4,
-      "wave_proxy_index": 1.830857
+      "wave_proxy_index": 1.830857,
+      "health_risk_index": 48.05508,
+      "maintenance_state": "AMBER",
+      "recommended_action": "Increase monitoring cadence and run propulsion inspection checklist",
+      "projected_wait_cost_usd": 27799871.44,
+      "projected_act_now_cost_usd": 370000.0,
+      "projected_cost_delta_usd": 27429871.44,
+      "drydock_recommended": false
     },
     {
       "timestamp": "cps_poseidon:6",
@@ -62,7 +83,14 @@
       "relative_head_wind_mps": 5.498834,
       "current_aiding_mps": 0.399915,
       "beaufort_scale": 4,
-      "wave_proxy_index": 1.312413
+      "wave_proxy_index": 1.312413,
+      "health_risk_index": 15.129173,
+      "maintenance_state": "GREEN",
+      "recommended_action": "Continue normal monitoring",
+      "projected_wait_cost_usd": 10636941.06,
+      "projected_act_now_cost_usd": 370000.0,
+      "projected_cost_delta_usd": 10266941.06,
+      "drydock_recommended": false
     }
   ],
   "baseline": {
@@ -71,6 +99,16 @@
     "anomaly_count": 3,
     "anomaly_threshold_pct": 0.75,
     "rows_evaluated": 4,
-    "calibration_samples": 3
+    "calibration_samples": 3,
+    "maintenance_policy": {
+      "sample_interval_hours": 1.0,
+      "forecast_days": 30,
+      "fuel_price_usd_per_ton": 650.0,
+      "sfoc_kg_per_kwh": 0.18,
+      "planned_drydock_cost_usd": 250000.0,
+      "planned_offhire_cost_usd": 120000.0,
+      "unplanned_failure_cost_usd": 900000.0,
+      "decision_margin_pct": 0.15
+    }
   }
 }
